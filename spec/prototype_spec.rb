@@ -10,6 +10,7 @@ class PrototypedObject
 
   def set_property(name, value)
     @properties[name] = value
+    define_singleton_method(name) { get_property(name) }
   end
 
   def get_property(name)
@@ -18,17 +19,17 @@ class PrototypedObject
     end
   end
 
-  def method_missing(name, *params, &block)
-    if respond_to_missing?(name)
-      get_property(name)
-    else
-      super
-    end
-  end
-
-  def respond_to_missing?(name, include_private_methods = false)
-    @properties.key?(name)
-  end
+  # def method_missing(name, *params, &block)
+  #   if respond_to_missing?(name)
+  #     get_property(name)
+  #   else
+  #     super
+  #   end
+  # end
+  #
+  # def respond_to_missing?(name, include_private_methods = false)
+  #   @properties.key?(name)
+  # end
 end
 
 class PropertyNotFoundError < StandardError
